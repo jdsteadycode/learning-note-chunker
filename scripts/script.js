@@ -15,8 +15,45 @@ const splitBtnEl = document.querySelector(".split-btn");
 // check log..
 // console.log(textAreaEl, splitBtnEl);
 
+// () -> get html template for chunk.
+function getChunkHTML(chunkString, chunkNo) {
+  // when chunk string is above 500 characters?
+  if (chunkString.length > 500) {
+
+    // get the sliced chunk.
+    let slicedChunk = chunkString.slice(0, 500);
+
+    // return the final HTML
+    return `
+      <article class="chunk-card">
+        <div class="chunk-header">
+          <span class="chunk-label">Chunk ${chunkNo}</span>
+          <button class="copy-btn" type="button">
+            <span aria-hidden="true">📋</span> Copy
+          </button>
+        </div>
+        <div class="chunk-text">${slicedChunk}</div>
+        <span class="chunk-more">Show more...</span>
+      </article>
+    `;
+  }
+
+  // otherwise, get the normal chunk html.
+  return `
+    <article class="chunk-card">
+      <div class="chunk-header">
+        <span class="chunk-label">Chunk ${chunkNo}</span>
+        <button class="copy-btn" type="button">
+          <span aria-hidden="true">📋</span> Copy
+        </button>
+      </div>
+      <div class="chunk-text">${chunkString}</div>
+    </article>
+  `;
+};
+
 // () -> generate the HTML for chunks of text.
-function generateHTML(dataArray) {
+function generateHTML(dataArray, callback) {
 
   // if array is empty!
   if (dataArray.length == 0) return "<h2>Whoosh, Did you directly clicked on <b>Split notes</b> button 🫣</h2>";
@@ -27,18 +64,8 @@ function generateHTML(dataArray) {
   // iterate over the data array containing array of strings.
   for(let i = 0; i < dataArray.length; i ++) {
 
-      // accumulate each string text in template or html accordingly.
-      html = html + `
-          <article class="chunk-card">
-            <div class="chunk-header">
-              <span class="chunk-label">Chunk ${i + 1}</span>
-              <button class="copy-btn" type="button">
-                <span aria-hidden="true">📋</span> Copy
-              </button>
-            </div>
-            <div class="chunk-text">${dataArray[i]}</div>
-          </article>
-      `;
+    // accumulate each string text in template or html accordingly.
+    html = html + callback(dataArray[i], i + 1);
   }
 
   // return the final generate html.
@@ -128,7 +155,7 @@ function handleDataSplit() {
   dataStore.chunkedData = chunkedArr;
 
   // generate the html from chunked Array.
-  let html = generateHTML(dataStore.chunkedData);
+  let html = generateHTML(dataStore.chunkedData, getChunkHTML);
 
   // render the final html.
   renderData(html, document.querySelector(".results"));
