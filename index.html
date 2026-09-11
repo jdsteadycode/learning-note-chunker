@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Note Chunker</title>
+  <!-- styles -->
+  <link rel="stylesheet" href="styles/style.css"></link>
+</head>
+<body>
+  <main class="app">
+    <!-- HEADER -->
+    <header class="app-header">
+      <h1>Learning Note Chunker</h1>
+      <p>Split long learning notes into manageable sequential chunks — perfect for copying into an AI conversation.</p>
+    </header>
+
+    <!-- INPUT AREA -->
+    <section class="input-section" aria-label="Input your learning notes">
+      <div class="input-label">
+        <span>Your notes</span>
+        <span class="word-hint">Maximum: approximately 4000 words</span>
+      </div>
+      <textarea
+        class="note-textarea"
+        placeholder="Paste or type your long learning notes here…"
+        aria-label="Learning notes textarea"
+      ></textarea>
+      <button class="split-btn" type="button">
+        <span aria-hidden="true">✂️</span> Split Notes
+      </button>
+    </section>
+
+    <!-- CHUNK RESULTS (DEMO) -->
+    <section class="results-section" aria-label="Chunk results preview">
+      <h2 class="results-title">Chunks</h2>
+      <p class="results-sub">Your original text is preserved and shown in order. Each chunk can be copied individually.</p>
+
+      <!--results -->
+      <section class="results">
+          <!-- test chunk -->
+          <!--<article class="chunk-card">
+            <div class="chunk-header">
+              <span class="chunk-label">Chunk X</span>
+              <button class="copy-btn" type="button">
+                <span aria-hidden="true">📋</span> Copy
+              </button>
+            </div>
+            <div class="chunk-text">
+                EP 2 - Igniting our App
+
+
+                Akshay started the demonstration saying this is Episode two of Namaste React - Igniting our App, we'll see lots of beautiful things coming ahead in this journey okay.
+
+                So, first lets save our work on Github okay, And If you don't know how to create a Repository - Google It okay.
+                Let me a repository named `Namaste-React`, now but, we already have content in our local folder `Namaste-React` right!
+
+                So, let us configure our remote with our local right!
+                i.e., initialize the git repository
+
+                And, let us also create a README.md file for basic info of our repository. And let us just add these files we created for ep1 right!
+
+                And let me commit the files, and let just push them and its good practice to have Git repositories
+            </div>
+          </article>-->
+      </section>
+    </section>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="scripts/script.js"></script>
+</body>
+</html>
