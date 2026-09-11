@@ -65,7 +65,7 @@ function generateHTML(dataArray, callback) {
   for(let i = 0; i < dataArray.length; i ++) {
 
     // accumulate each string text in template or html accordingly.
-    html = html + callback(dataArray[i], i + 1);
+    html = html + callback(dataArray[i]["chunkText"], i + 1);
   }
 
   // return the final generate html.
@@ -107,6 +107,12 @@ function handleCopy(event) {
   console.log("Copied text!");
 };
 
+// () -> fill the chunked data obj
+function getChunkObj(string, index) {
+  // get structured obj for chunked data array!
+  // i.e., {"chunkId": "c-no", "chunkText": "..."};
+  return { "chunkId": `c-${index + 1}`, "chunkText": string ?? "n/a"};
+};
 
 // () -> handle splitting of data
 function handleDataSplit() {
@@ -151,8 +157,9 @@ function handleDataSplit() {
     chunkedArr.push(chunkedString);
   }
 
-  // store the array in dataStore's chunked array.
-  dataStore.chunkedData = chunkedArr;
+  // generate new array with proper structure for chunks! & save it in dataStore's chunkedData
+  // i.e., using higher order function `map` of array - this ensures new array is created with intended transformation as by `getChunkObj` helper function.
+  dataStore.chunkedData = chunkedArr.map(getChunkObj);
 
   // generate the html from chunked Array.
   let html = generateHTML(dataStore.chunkedData, getChunkHTML);
