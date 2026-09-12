@@ -16,16 +16,16 @@ const splitBtnEl = document.querySelector(".split-btn");
 // console.log(textAreaEl, splitBtnEl);
 
 // () -> get html template for chunk.
-function getChunkHTML(chunkString, chunkNo) {
+function getChunkHTML(chunkObj, chunkNo) {
   // when chunk string is above 500 characters?
-  if (chunkString.length > 500) {
+  if (chunkObj["chunkText"].length > 500) {
 
     // get the sliced chunk.
-    let slicedChunk = chunkString.slice(0, 500);
+    let slicedChunk = chunkObj["chunkText"].slice(0, 500);
 
     // return the final HTML
     return `
-      <article class="chunk-card">
+    <article class="chunk-card" data-chunk-id="${chunkObj['chunkId']}">
         <div class="chunk-header">
           <span class="chunk-label">Chunk ${chunkNo}</span>
           <button class="copy-btn" type="button">
@@ -40,14 +40,14 @@ function getChunkHTML(chunkString, chunkNo) {
 
   // otherwise, get the normal chunk html.
   return `
-    <article class="chunk-card">
+    <article class="chunk-card" data-chunk-id="${chunkObj['chunkId']}">
       <div class="chunk-header">
         <span class="chunk-label">Chunk ${chunkNo}</span>
         <button class="copy-btn" type="button">
           <span aria-hidden="true">📋</span> Copy
         </button>
       </div>
-      <div class="chunk-text">${chunkString}</div>
+      <div class="chunk-text">${chunkObj["chunkText"]}</div>
     </article>
   `;
 };
@@ -61,11 +61,11 @@ function generateHTML(dataArray, callback) {
   // initial html (template)
   let html = "";
 
-  // iterate over the data array containing array of strings.
+  // iterate over the data array containing array of chunk objs.
   for(let i = 0; i < dataArray.length; i ++) {
 
-    // accumulate each string text in template or html accordingly.
-    html = html + callback(dataArray[i]["chunkText"], i + 1);
+    // pass the chunkObj to callback and accumulate incoming each chunked html template.
+    html = html + callback(dataArray[i], i + 1);
   }
 
   // return the final generate html.
