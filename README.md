@@ -32,11 +32,12 @@ Is a small try to make things easier for self.
 
 ## 📌 Status
 
-**Version:** V1.0
-**Status:** Initial stable version
+**Version:** V1.0.1
+**Status:** Initial stable version with show more chunk feature.
 
 Built as a personal JavaScript learning project while practicing concepts from **Namaste JavaScript**.
 
 ## ⚠️ Known issues:
-- less interactive UI
-- User experince issue during initial viewing of chunks when generated
+- Doesn't work with malformed and conflicted raw text.
+- Needs show less functionality.
+- Needs some UI design tweaks.
