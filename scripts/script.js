@@ -15,32 +15,57 @@ const splitBtnEl = document.querySelector(".split-btn");
 // check log..
 // console.log(textAreaEl, splitBtnEl);
 
-// () -> generate the HTML for chunks of text.
-function generateHTML(dataArray) {
+// () -> get html template for chunk.
+function getChunkHTML(chunkObj, chunkNo) {
+  // when chunk string is above 500 characters?
+  if (chunkObj["chunkText"].length > 500) {
 
+    // get the sliced chunk.
+    let slicedChunk = chunkObj["chunkText"].slice(0, 500);
+
+    // return the final HTML
+    return `
+      <article class="chunk-card" data-chunk-id="${chunkObj['chunkId']}">
+          <div class="chunk-header">
+            <span class="chunk-label">Chunk ${chunkNo}</span>
+            <button class="copy-btn" type="button">
+              <span aria-hidden="true">📋</span> Copy
+            </button>
+          </div>
+          <div class="chunk-text">${slicedChunk}</div>
+          <span class="chunk-more">Show more...</span>
+        </article>
+      `;
+  }
+
+  // otherwise, get the normal chunk html.
+  return `
+    <article class="chunk-card" data-chunk-id="${chunkObj['chunkId']}">
+      <div class="chunk-header">
+        <span class="chunk-label">Chunk ${chunkNo}</span>
+        <button class="copy-btn" type="button">
+          <span aria-hidden="true">📋</span> Copy
+        </button>
+      </div>
+      <div class="chunk-text">${chunkObj["chunkText"]}</div>
+    </article>
+  `;
+};
+
+// () -> generate the HTML for chunks of text.
+function generateHTML(dataArray, callback) {
   // if array is empty!
   if (dataArray.length == 0) return "<h2>Whoosh, Did you directly clicked on <b>Split notes</b> button 🫣</h2>";
 
   // initial html (template)
   let html = "";
 
-  // iterate over the data array containing array of strings.
+  // iterate over the data array containing array of chunk objs.
   for(let i = 0; i < dataArray.length; i ++) {
-
-      // accumulate each string text in template or html accordingly.
-      html = html + `
-          <article class="chunk-card">
-            <div class="chunk-header">
-              <span class="chunk-label">Chunk ${i + 1}</span>
-              <button class="copy-btn" type="button">
-                <span aria-hidden="true">📋</span> Copy
-              </button>
-            </div>
-            <div class="chunk-text">${dataArray[i]}</div>
-          </article>
-      `;
+    // console.log(dataArray[i]);
+    // pass the chunkObj to callback and accumulate incoming each chunked html template.
+    html = html + callback(dataArray[i], i + 1);
   }
-
   // return the final generate html.
   return html;
 };
@@ -67,19 +92,54 @@ function handleCopy(event) {
   // target where handler was attached?
   // console.log("Event current target ", event.currentTarget);
 
-  // get the chunk-text element's inner html which contains exact content to copy!
-  // i.e., copy-btn's parent is chunk-header and chunk-header element's sibling next is `chunk-text` element which is what is needed!
-  const chunkElement = event.currentTarget.parentElement.nextElementSibling;
+  // from current target which is copybutton itself, get the chunk-card - outermost parent <article class="chunk-card">..</article>
+  // i.e., copy-btn's parent is chunk-header and chunk-header's parent is chunk-card itself!
+  const chunkCardEl = event.currentTarget.parentElement.parentElement;
   // check log.
-  // console.log(chunkText);
+  // console.log(chunkCardEl);
 
-  // copy the text to clipboard!
-  window.navigator.clipboard.writeText(chunkElement.textContent);
+  // check log.. the chunkId of that chunk card!
+  // console.log(chunkCardEl.dataset.chunkId);
 
-  // check log..
-  console.log("Copied text!");
+  // find the chunk from the actual storage! on the basis of matching chunkId.
+  const chunkObj = dataStore.chunkedData.find(chunk => chunk.chunkId === chunkCardEl.dataset.chunkId);
+  // check log.
+  // console.log(chunkObj["chunkText"].length);
+
+  // just copy only the intended chunk text to clipboard using Browser's navigator api.
+  window.navigator.clipboard.writeText(chunkObj["chunkText"] ?? "n/a");
 };
 
+// () -> handle show more click.
+function handleShowMore(event) {
+  // check log.
+  // console.log(event);
+
+  // check the current targeted el!
+  // console.log(event.currentTarget);
+
+  // from current target i.e., Show more el go to its Parent Element which is chunk card element itself!
+  // i.e., show more -> chunk-card.
+  let chunkCardEl = event.currentTarget.parentElement;
+
+  // get the chunk obj from actual data source via its match chunkId from chunkCardEl.
+  // console.log(chunkCardEl.dataset.chunkId);
+  let chunkObj = dataStore.chunkedData.find(obj => obj.chunkId === chunkCardEl.dataset.chunkId);
+  // console.log(chunkObj);
+
+  // get its previous sibling element i.e., `chunk-text` element.
+  let chunkTextEl = event.currentTarget.previousElementSibling;
+
+  // update its entire html with full chunk string from actual source.
+  chunkTextEl.innerHTML = chunkObj["chunkText"] ?? 'n/a';
+}
+
+// () -> fill the chunked data obj
+function getChunkObj(string, index) {
+  // get structured obj for chunked data array!
+  // i.e., {"chunkId": "c-no", "chunkText": "..."};
+  return { "chunkId": `c-${index + 1}`, "chunkText": string ?? "n/a"};
+};
 
 // () -> handle splitting of data
 function handleDataSplit() {
@@ -124,11 +184,12 @@ function handleDataSplit() {
     chunkedArr.push(chunkedString);
   }
 
-  // store the array in dataStore's chunked array.
-  dataStore.chunkedData = chunkedArr;
+  // generate new array with proper structure for chunks! & save it in dataStore's chunkedData
+  // i.e., using higher order function `map` of array - this ensures new array is created with intended transformation as by `getChunkObj` helper function.
+  dataStore.chunkedData = chunkedArr.map(getChunkObj);
 
   // generate the html from chunked Array.
-  let html = generateHTML(dataStore.chunkedData);
+  let html = generateHTML(dataStore.chunkedData, getChunkHTML);
 
   // render the final html.
   renderData(html, document.querySelector(".results"));
@@ -138,6 +199,15 @@ function handleDataSplit() {
     // console.log(copyBtn);
     attachBtnEvent(copyBtn, handleCopy);
   });
+
+  // also if any show-more element are available?
+  if (document.querySelectorAll(".chunk-more").length > 0) {
+    // for each of available show more element!
+    document.querySelectorAll(".chunk-more").forEach(function (showMoreEl) {
+      // attach the handler as click event!
+      attachBtnEvent(showMoreEl, handleShowMore);
+    });
+  }
 };
 
 // attach the event on `spit notes btn`!

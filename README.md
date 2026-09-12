@@ -32,11 +32,42 @@ Is a small try to make things easier for self.
 
 ## 📌 Status
 
-**Version:** V1.0
-**Status:** Initial stable version
+**Version:** V1.0.1
+**Status:** Initial stable version with show more chunk feature.
 
 Built as a personal JavaScript learning project while practicing concepts from **Namaste JavaScript**.
 
 ## ⚠️ Known issues:
-- less interactive UI
-- User experince issue during initial viewing of chunks when generated
+- Needs show less functionality.
+- Needs some UI design tweaks.
+
+## ℹ️ IMPORTANT NOTE:
+- Ensure raw text is not malformed or conflicted!
+**For example:**
+```md
+1. Make your own notes (I already do this in notepad since Namaste JS)
+2. Use your laptop / Desktop i.e., pause -> experiment yourself as watching won't change anything (Happy that I'm already following this since Namaste JS)
+3. Maintain your Github Repo (I think this is new thing to start and follow along \& sounds interesting as well)
+We are starting right from scratch as of `Inception Episode 01`, lets dive right in.
+
+You know I won't be directly starting with React for moment, But just giving you a small recap of three `HTML, CSS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\& JavaScript` okay!
+
+No hurries, We've lots of time for React. So, first of lets create a basic `Hello World!` program inside our Html page okay.
+
+(Here I again paused and myself created the folder inside `Namaste-React` as follows:
+Namaste-React/
+
+&#x20;- ep1-inception/
+
+&#x20;  - recap/
+
+&#x20;    - index.html
+
+&#x20;    - styles/
+
+&#x20;      - styles.css
+
+&#x20;    - scripts/
+
+&#x20;      - script.js
+```
