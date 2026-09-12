@@ -94,17 +94,22 @@ function handleCopy(event) {
   // target where handler was attached?
   // console.log("Event current target ", event.currentTarget);
 
-  // get the chunk-text element's inner html which contains exact content to copy!
-  // i.e., copy-btn's parent is chunk-header and chunk-header element's sibling next is `chunk-text` element which is what is needed!
-  const chunkElement = event.currentTarget.parentElement.nextElementSibling;
+  // from current target which is copybutton itself, get the chunk-card - outermost parent <article class="chunk-card">..</article>
+  // i.e., copy-btn's parent is chunk-header and chunk-header's parent is chunk-card itself!
+  const chunkCardEl = event.currentTarget.parentElement.parentElement;
   // check log.
-  // console.log(chunkText);
+  // console.log(chunkCardEl);
 
-  // copy the text to clipboard!
-  window.navigator.clipboard.writeText(chunkElement.textContent);
+  // check log.. the chunkId of that chunk card!
+  // console.log(chunkCardEl.dataset.chunkId);
 
-  // check log..
-  console.log("Copied text!");
+  // find the chunk from the actual storage! on the basis of matching chunkId.
+  const chunkObj = dataStore.chunkedData.find(chunk => chunk.chunkId === chunkCardEl.dataset.chunkId);
+  // check log.
+  // console.log(chunkObj["chunkText"].length);
+
+  // just copy only the intended chunk text to clipboard using Browser's navigator api.
+  window.navigator.clipboard.writeText(chunkObj["chunkText"] ?? "n/a");
 };
 
 // () -> fill the chunked data obj
