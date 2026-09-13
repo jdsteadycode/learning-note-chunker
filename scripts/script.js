@@ -15,6 +15,41 @@ const splitBtnEl = document.querySelector(".split-btn");
 // check log..
 // console.log(textAreaEl, splitBtnEl);
 
+// () -> to mutate or update an element, removing its old attributes and adding new attributes & property details.
+function mutateElement(element, oldAttributes, newAttributes, properties) {
+    // when old attributes exist?
+    if(oldAttributes.length !== 0) {
+        // iterate over incoming old attributes.
+        for(let i = 0; i < oldAttributes.length; i ++) {
+    
+            // one by one remove the ith old attribute.
+            element.removeAttribute(oldAttributes[i]);
+        }
+    }
+
+    // new attributes, again iterate over new attributes.
+    if(newAttributes.length !== 0) {
+
+      // iterate over the new attributes.
+      for(let i = 0; i < newAttributes.length; i ++) {
+
+        // one by one add new attribute to it.
+        element.setAttribute(newAttributes[i]["attribute"], newAttributes[i]["value"]);
+      }
+    }
+
+    // new properties, iterate over new attributes.
+    if(properties.length !== 0) {
+
+      // iterate over the new property.
+      for(let i = 0; i < properties.length; i ++) {
+
+        // one by one add new property to it.
+        element[properties[i]["property"]] = properties[i]["value"];
+      }
+    }
+}
+
 // () -> get chunk text slice! (0 - 500 chars)
 function getChunkSlice(chunkString = "n/a") {
   // get the sliced new string until 500 chars.
@@ -118,20 +153,12 @@ function handleCopy(event) {
 
 // () -> handle show more click.
 function handleShowMore(event) {
-  // check log.
-  // console.log(event);
-
-  // check the current targeted el!
-  // console.log(event.currentTarget);
-
   // from current target i.e., Show more el go to its Parent Element which is chunk card element itself!
   // i.e., show more -> chunk-card.
   let chunkCardEl = event.currentTarget.parentElement;
 
   // get the chunk obj from actual data source via its match chunkId from chunkCardEl.
-  // console.log(chunkCardEl.dataset.chunkId);
   let chunkObj = dataStore.chunkedData.find(obj => obj.chunkId === chunkCardEl.dataset.chunkId);
-  // console.log(chunkObj);
 
   // get its previous sibling element i.e., `chunk-text` element.
   let chunkTextEl = event.currentTarget.previousElementSibling;
@@ -139,15 +166,8 @@ function handleShowMore(event) {
   // update its entire html with full chunk string from actual source.
   chunkTextEl.innerHTML = chunkObj["chunkText"] ?? 'n/a';
 
-  // check log..
-  // console.log(event.currentTarget.setAttribute, event.currentTarget.removeAttribute);
-
-  // update the current target's attributes
-  event.currentTarget.removeAttribute("class");
-  event.currentTarget.setAttribute("class", "chunk-less");
-  
-  // update it's html.
-  event.currentTarget.innerHTML = "Show less...";
+  // update the current target element
+  mutateElement(event.currentTarget, ["class"],[{"attribute": "class", "value": "chunk-less"},], [{"property": "innerHTML", "value": "Show less.."}]);
 
   // attach handler to it.
   attachBtnEvent(event.currentTarget, handleShowLess);
@@ -155,9 +175,6 @@ function handleShowMore(event) {
 
 // () -> handle show less click.
 function handleShowLess(event) {
-  // check log
-  // console.log(event.currentTarget);
-
   // get intended chunkId.
   const chunkId = event.currentTarget.parentElement.dataset.chunkId;
 
@@ -167,22 +184,14 @@ function handleShowLess(event) {
   // from original datastore find the actual chunk!
   const chunkObj = dataStore.chunkedData.find(obj => obj.chunkId === chunkId);
 
-  // check log..
-  // console.log(chunkObj);
-
   // get the new sliced chunk text to 500.
   let chunkText = getChunkSlice(chunkObj["chunkText"]);
-  // console.log(chunkText, chunkText.length);
 
   // update the html of its sibling i.e., chunk-text el.
   chunkTextEl.innerHTML = chunkText;
 
-  // update the attributes of chunk-less -> chunk-more el!
-  event.currentTarget.removeAttribute("class");
-  event.currentTarget.setAttribute("class", "chunk-more");
-  
-  // set html.
-  event.currentTarget.innerHTML = "Show more...";
+  // update the element.
+  mutateElement(event.currentTarget, ["class"],[{"attribute": "class", "value": "chunk-more"},], [{"property": "innerHTML", "value": "Show more.."}]);
 
   // attach the handler to it.
   attachBtnEvent(event.currentTarget, handleShowMore);
