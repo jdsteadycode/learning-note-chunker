@@ -15,13 +15,19 @@ const splitBtnEl = document.querySelector(".split-btn");
 // check log..
 // console.log(textAreaEl, splitBtnEl);
 
+// () -> get chunk text slice! (0 - 500 chars)
+function getChunkSlice(chunkString = "n/a") {
+  // get the sliced new string until 500 chars.
+  return chunkString.slice(0, 500);
+}
+
 // () -> get html template for chunk.
 function getChunkHTML(chunkObj, chunkNo) {
   // when chunk string is above 500 characters?
   if (chunkObj["chunkText"].length > 500) {
 
     // get the sliced chunk.
-    let slicedChunk = chunkObj["chunkText"].slice(0, 500);
+    let slicedChunk = getChunkSlice(chunkObj["chunkText"]);
 
     // return the final HTML
     return `
@@ -132,6 +138,54 @@ function handleShowMore(event) {
 
   // update its entire html with full chunk string from actual source.
   chunkTextEl.innerHTML = chunkObj["chunkText"] ?? 'n/a';
+
+  // check log..
+  // console.log(event.currentTarget.setAttribute, event.currentTarget.removeAttribute);
+
+  // update the current target's attributes
+  event.currentTarget.removeAttribute("class");
+  event.currentTarget.setAttribute("class", "chunk-less");
+  
+  // update it's html.
+  event.currentTarget.innerHTML = "Show less...";
+
+  // attach handler to it.
+  attachBtnEvent(event.currentTarget, handleShowLess);
+}
+
+// () -> handle show less click.
+function handleShowLess(event) {
+  // check log
+  // console.log(event.currentTarget);
+
+  // get intended chunkId.
+  const chunkId = event.currentTarget.parentElement.dataset.chunkId;
+
+  // get chunk text element it's previous sibling!
+  const chunkTextEl = event.currentTarget.previousElementSibling;
+
+  // from original datastore find the actual chunk!
+  const chunkObj = dataStore.chunkedData.find(obj => obj.chunkId === chunkId);
+
+  // check log..
+  // console.log(chunkObj);
+
+  // get the new sliced chunk text to 500.
+  let chunkText = getChunkSlice(chunkObj["chunkText"]);
+  // console.log(chunkText, chunkText.length);
+
+  // update the html of its sibling i.e., chunk-text el.
+  chunkTextEl.innerHTML = chunkText;
+
+  // update the attributes of chunk-less -> chunk-more el!
+  event.currentTarget.removeAttribute("class");
+  event.currentTarget.setAttribute("class", "chunk-more");
+  
+  // set html.
+  event.currentTarget.innerHTML = "Show more...";
+
+  // attach the handler to it.
+  attachBtnEvent(event.currentTarget, handleShowMore);
 }
 
 // () -> fill the chunked data obj
