@@ -38,8 +38,8 @@ Is a small try to make things easier for self.
 Built as a personal JavaScript learning project while practicing concepts from **Namaste JavaScript**.
 
 ## ⚠️ Known issues:
-- Needs show less functionality.
-- Needs some UI design tweaks.
+- Needs some code tweaks.
+- Needs some UI design tweaks for chunk show more and show less feature.
 
 ## ℹ️ IMPORTANT NOTE:
 - Ensure raw text is not malformed or conflicted!
