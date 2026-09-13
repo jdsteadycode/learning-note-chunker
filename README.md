@@ -32,8 +32,8 @@ Is a small try to make things easier for self.
 
 ## 📌 Status
 
-**Version:** V1.0.1
-**Status:** Initial stable version with show more chunk feature.
+**Version:** V1.0.2
+**Status:** Initial stable version with show more/less feature.
 
 Built as a personal JavaScript learning project while practicing concepts from **Namaste JavaScript**.
 
