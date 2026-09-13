@@ -44,7 +44,8 @@ Built as a personal JavaScript learning project while practicing concepts from *
 
 ## ℹ️ IMPORTANT NOTE:
 - Ensure raw text is not malformed or conflicted!
-**For example:**
+<br>
+**Example:**
 ```md
 1. Make your own notes (I already do this in notepad since Namaste JS)
 2. Use your laptop / Desktop i.e., pause -> experiment yourself as watching won't change anything (Happy that I'm already following this since Namaste JS)
