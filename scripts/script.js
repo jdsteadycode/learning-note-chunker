@@ -11,9 +11,16 @@ const dataStore = {
 // grab the html element(s).
 const textAreaEl = document.querySelector(".note-textarea");
 const splitBtnEl = document.querySelector(".split-btn");
+const modalEl = document.querySelector("#myModal");
 
 // check log..
 // console.log(textAreaEl, splitBtnEl);
+
+// () -> to open the modal element.
+function handleModalOpen() {
+  // update the current style from hidden to make it visible!
+  modalEl.style.display = "flex";
+}
 
 // () -> to mutate or update an element, removing its old attributes and adding new attributes & property details.
 function mutateElement(element, oldAttributes, newAttributes, properties) {
@@ -160,17 +167,14 @@ function handleShowMore(event) {
   // get the chunk obj from actual data source via its match chunkId from chunkCardEl.
   let chunkObj = dataStore.chunkedData.find(obj => obj.chunkId === chunkCardEl.dataset.chunkId);
 
-  // get its previous sibling element i.e., `chunk-text` element.
-  let chunkTextEl = event.currentTarget.previousElementSibling;
+  // check log the modal's body
+  console.log(document.querySelector(".modal-body"));
 
-  // update its entire html with full chunk string from actual source.
-  chunkTextEl.innerHTML = chunkObj["chunkText"] ?? 'n/a';
+  // update the inner html of modal body with actual chunk content text.
+  document.querySelector(".modal-body").innerHTML = `<p>${chunkObj["chunkText"]}</p>`;
 
-  // update the current target element
-  mutateElement(event.currentTarget, ["class"],[{"attribute": "class", "value": "chunk-less"},], [{"property": "innerHTML", "value": "Show less.."}]);
-
-  // attach handler to it.
-  attachBtnEvent(event.currentTarget, handleShowLess);
+  // open the modal.
+  handleModalOpen();
 }
 
 // () -> handle show less click.
