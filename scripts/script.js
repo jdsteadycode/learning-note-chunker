@@ -16,16 +16,31 @@ const modalEl = document.querySelector("#myModal");
 // check log..
 // console.log(textAreaEl, splitBtnEl);
 
+// () -> to update the modal body HTML!
+function updateModalBodyHTML(html = "") {
+  // update its inner html accordingly
+  document.querySelector(".modal-body").innerHTML = html;
+}
+
 // () -> to open the modal element.
 function handleModalOpen() {
   // update the current style from hidden to make it visible!
   modalEl.style.display = "flex";
+
+  // restrict background scrolling behavior!
+  document.body.style.overflow = "hidden";
 };
 
 // () -> to close the modal element
 function handleModalClose() {
   // update its display & hide the modal again.
   modalEl.style.display = "none";
+
+  // restore the scroll behavior
+  document.body.style.overflow = "";
+
+  // trigger modal body update!
+  updateModalBodyHTML("");
 };
 
 // () -> to mutate or update an element, removing its old attributes and adding new attributes & property details.
@@ -176,38 +191,14 @@ function handleShowMore(event) {
   // check log the modal's body
   console.log(document.querySelector(".modal-body"));
 
-  // update the inner html of modal body with actual chunk content text.
-  document.querySelector(".modal-body").innerHTML = `<p>${chunkObj["chunkText"]}</p>`;
+  // update the modal body html!
+  updateModalBodyHTML(`<p>${chunkObj["chunkText"]}</p>`);
 
   // open the modal.
   handleModalOpen();
 
   // attach the handler to close btn of opened modal!
   attachBtnEvent(document.querySelector("#closeModalBtn"), handleModalClose);
-}
-
-// () -> handle show less click.
-function handleShowLess(event) {
-  // get intended chunkId.
-  const chunkId = event.currentTarget.parentElement.dataset.chunkId;
-
-  // get chunk text element it's previous sibling!
-  const chunkTextEl = event.currentTarget.previousElementSibling;
-
-  // from original datastore find the actual chunk!
-  const chunkObj = dataStore.chunkedData.find(obj => obj.chunkId === chunkId);
-
-  // get the new sliced chunk text to 500.
-  let chunkText = getChunkSlice(chunkObj["chunkText"]);
-
-  // update the html of its sibling i.e., chunk-text el.
-  chunkTextEl.innerHTML = chunkText;
-
-  // update the element.
-  mutateElement(event.currentTarget, ["class"],[{"attribute": "class", "value": "chunk-more"},], [{"property": "innerHTML", "value": "Show more.."}]);
-
-  // attach the handler to it.
-  attachBtnEvent(event.currentTarget, handleShowMore);
 }
 
 // () -> fill the chunked data obj
