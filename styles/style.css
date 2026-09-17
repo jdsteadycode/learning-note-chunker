@@ -22,6 +22,72 @@ body {
     padding: 2rem 1.5rem 3rem;
 }
 
+/* Modal Section */
+.modal-overlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+  z-index: 1000;
+  justify-content: center;
+  align-items: center; /* Centers the modal vertically & horizontally */
+}
+
+/* The Modal Box Card */
+.modal-box {
+  background-color: #fff;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh; /* Limits height to 80% of the viewport */
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column; /* Stacks header, body, footer vertically */
+  overflow: hidden; /* Prevents contents from spilling out of rounded corners */
+}
+
+/* Modal Layout Sections */
+.modal-header, .modal-footer {
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+}
+
+.modal-header {
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-footer {
+  justify-content: flex-end;
+  border-top: 1px solid #eee;
+}
+
+/* Modal body The Scrollable Core */
+.modal-body {
+  padding: 20px;
+  overflow-y: auto; /* Triggers vertical scrollbar when content overflows */
+  flex-grow: 1; /* Takes up remaining space between header and footer */
+}
+
+/* Interactive Elements styling */
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal-footer button {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+
 /* ---------- LAYOUT CONTAINER ---------- */
 .app {
     max-width: 880px;
