@@ -3,13 +3,13 @@ Is a small try to make things easier for self.
 **problem**: Manual copy-pasting note chunks to Gen AI's prompt window during self-introspection of my day to day learning.
 **solution**: Ensures that long raw text can be chunked into smaller copy-pastable portions easily in AI chat window.
 
-## ✨ V1.0.2
+## ✨ V1.0.3
 
 * Paste raw learning notes.
 * Split notes into sequential **3000-character chunks**.
 * Display the generated chunks with minimal info.
 * Copy individual chunks to the clipboard.
-* Show more/less chunk details.
+* Show more preview modal.
 
 ## 🧠 Concepts in action
 
@@ -33,14 +33,13 @@ Is a small try to make things easier for self.
 
 ## 📌 Status
 
-**Version:** V1.0.2
-**Status:** Initial stable version with show more/less feature with some code improvements.
+**Version:** V1.0.3
+**Status:** Initial stable version with show more chunk preview feature using re-usable modal.
 
 Built as a personal JavaScript learning project while practicing concepts from **Namaste JavaScript**.
 
 ## ⚠️ Known issues:
-- Needs some code tweaks.
-- Needs some UI design tweaks for chunk show more and show less feature.
+- Needs some UI UX tweaks in code.
 
 ## ℹ️ IMPORTANT NOTE:
 - Ensure raw text is not malformed or conflicted!. \

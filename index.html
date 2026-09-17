@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles/style.css"></link>
 </head>
 <body>
-  <main class="app">
+  <main class="app">  
     <!-- HEADER -->
     <header class="app-header">
       <h1>Learning Note Chunker</h1>
@@ -41,6 +41,34 @@
       </section>
     </section>
   </main>
+
+  <!-- Re-usable Modal Overlay -->
+  <div id="myModal" class="modal-overlay">
+      <!-- Modal Box -->
+      <div class="modal-box">
+          <!-- Header -->
+          <div class="modal-header">
+              <h2 class="modal-heading">Preview</h2>
+              <button id="closeModalBtn" class="close-btn">&times;</button>
+          </div>
+
+          <!-- Scrollable Body Content -->
+          <div class="modal-body">
+              <!--<p>This is the start of the scrollable content...</p>-->
+              <!-- Simulating long content -->
+              <!-- <div
+                      style="height: 600px; background: linear-gradient(#eee, #ccc); margin: 15px 0; padding: 10px; border-radius: 4px;">
+                      [Long content area - scroll down to see the footer]
+                  </div> -->
+              <!-- <p>This is the end of the scrollable content.</p> -->
+          </div>
+
+          <!-- Footer -->
+          <!-- <div class="modal-footer">
+                  <button id="footerCloseBtn">Close</button>
+              </div> -->
+      </div>
+  </div>
 
   <!-- JavaScript -->
   <script src="scripts/script.js"></script>
