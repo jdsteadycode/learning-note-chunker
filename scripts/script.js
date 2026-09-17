@@ -20,7 +20,13 @@ const modalEl = document.querySelector("#myModal");
 function handleModalOpen() {
   // update the current style from hidden to make it visible!
   modalEl.style.display = "flex";
-}
+};
+
+// () -> to close the modal element
+function handleModalClose() {
+  // update its display & hide the modal again.
+  modalEl.style.display = "none";
+};
 
 // () -> to mutate or update an element, removing its old attributes and adding new attributes & property details.
 function mutateElement(element, oldAttributes, newAttributes, properties) {
@@ -55,13 +61,13 @@ function mutateElement(element, oldAttributes, newAttributes, properties) {
         element[properties[i]["property"]] = properties[i]["value"];
       }
     }
-}
+};
 
 // () -> get chunk text slice! (0 - 500 chars)
 function getChunkSlice(chunkString = "n/a") {
   // get the sliced new string until 500 chars.
   return chunkString.slice(0, 500);
-}
+};
 
 // () -> get html template for chunk.
 function getChunkHTML(chunkObj, chunkNo) {
@@ -175,6 +181,9 @@ function handleShowMore(event) {
 
   // open the modal.
   handleModalOpen();
+
+  // attach the handler to close btn of opened modal!
+  attachBtnEvent(document.querySelector("#closeModalBtn"), handleModalClose);
 }
 
 // () -> handle show less click.
